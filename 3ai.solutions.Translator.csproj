@@ -1,10 +1,27 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <RootNamespace>_3ai.solutions.Translator</RootNamespace>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<RootNamespace>_3ai.solutions.Translator</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Version>2.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2000-01-01"))).TotalDays).$([System.DateTime]::UtcNow.Hour)</Version>
+		<PackageDescription>Simple package which enables class fields to be translatable</PackageDescription>
+		<RepositoryUrl>https://github.com/kapiosk/3ai.solutions.Translator/</RepositoryUrl>
+	</PropertyGroup>
+	<PropertyGroup>
+		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+	<ItemGroup>
+	  <None Remove="LICENSE" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Include="LICENSE" />
+	</ItemGroup>
 
+	<ItemGroup>
+		<None Include="LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
+		<None Include="README.md" Pack="true" PackagePath="README.md" />
+	</ItemGroup>
 </Project>
