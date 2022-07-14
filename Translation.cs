@@ -13,14 +13,5 @@ namespace _3ai.solutions.Translator
         public string Name { get; set; } = string.Empty;
         [NotMapped]
         public bool IsLongText { get; set; }
-
     }
-    [AttributeUsage(AttributeTargets.Property)]
-    public class Translatable : Attribute { }
-
-    [AttributeUsage(AttributeTargets.Property)]
-    public class TranslationKey : Attribute { }
-
-    [AttributeUsage(AttributeTargets.Property)]
-    public class TranslationLongText : Attribute { }
 }

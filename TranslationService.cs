@@ -6,70 +6,11 @@ namespace _3ai.solutions.Translator
 {
     public class TranslationService
     {
-        //private readonly ApplicationContext _context;
-        //private readonly CacheHandlerService _cacheHandlerService;
-        //private readonly CurrentUserService _currentUserService;
-        //public TranslationService(ApplicationContext context, CacheHandlerService cacheHandlerService, CurrentUserService currentUserService)
-        //{
-        //    _context = context;
-        //    _cacheHandlerService = cacheHandlerService;
-        //    _currentUserService = currentUserService;
-        //}
-
-        //public async Task SaveTranslation(int languageId, int foreignId, int keyId, string value)
-        //{
-        //    Translation trans = new()
-        //    {
-        //        KeyId = keyId,
-        //        LanguageId = languageId,
-        //        ForeignId = foreignId,
-        //        Value = value
-        //    };
-        //    await SaveTranslation(trans);
-        //}
-
-        //public async Task SaveTranslation(Translation trans)
-        //{
-        //    if (await _context.Translations.AsNoTracking().ContainsAsync(trans))
-        //        _context.Translations.Update(trans);
-        //    else
-        //        _context.Translations.Add(trans);
-        //    await _context.SaveChangesAsync();
-        //}
-
-        //public async Task SaveTranslation(List<Translation> translations)
-        //{
-        //    foreach (Translation trans in translations)
-        //    {
-        //        if (await _context.Translations.AsNoTracking().ContainsAsync(trans))
-        //            _context.Translations.Update(trans);
-        //        else
-        //            _context.Translations.Add(trans);
-        //    }
-        //    await _context.SaveChangesAsync();
-        //}
-
-        //private Dictionary<int, Dictionary<int, Dictionary<int, string>>> Translations
-        //{
-        //    get
-        //    {
-        //        return _cacheHandlerService.GetOrCreateAsync("Translations", async () =>
-        //        {
-        //            return await Task.FromResult((from ln in await _currentUserService.Languages(true)
-        //                                          join tr in _context.Translations.ToList() on ln.LanguageId equals tr.LanguageId into g
-        //                                          select new { ln.LanguageId, g }
-        //                    ).ToDictionary(x => x.LanguageId,
-        //                                    x => x.g.GroupBy(x => x.ForeignId)
-        //                                            .ToDictionary(x => x.Key,
-        //                                            x => x.ToDictionary(x => x.KeyId, x => x.Value))));
-        //        }, CacheHandlerService.CacheExpiration.LongTerm).Result;
-        //    }
-        //}
-
         private readonly Dictionary<int, Dictionary<int, Dictionary<int, string>>> _translations;
-        public TranslationService(ITranslationCache cache)
+
+        public TranslationService(ITranslationRepository repo)
         {
-            _translations = cache.GetTranslations();
+            _translations = repo.GetTranslations();
         }
 
         public List<T>? GetTranslated<T>(List<T> items, int languageId, bool newItem = false)
@@ -141,7 +82,7 @@ namespace _3ai.solutions.Translator
                 {
                     KeyId = GetHash(key),
                     ForeignId = foreignId.Value,
-                    Name = propertyInfo.Name,
+                    Name = propertyInfo.GetCustomAttribute<Translatable>()?.Name ?? propertyInfo.Name,
                     Value = (string)(propertyInfo.GetValue(item) ?? ""),
                     IsLongText = propertyInfo.GetCustomAttribute<TranslationLongText>() != null
                 });
