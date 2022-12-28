@@ -84,7 +84,8 @@ namespace _3ai.solutions.Translator
                     ForeignId = foreignId.Value,
                     Name = propertyInfo.GetCustomAttribute<Translatable>()?.Name ?? propertyInfo.Name,
                     Value = (string)(propertyInfo.GetValue(item) ?? ""),
-                    IsLongText = propertyInfo.GetCustomAttribute<TranslationLongText>() != null
+                    IsLongText = propertyInfo.GetCustomAttribute<TranslationLongText>() != null,
+                    IsRichText = propertyInfo.GetCustomAttribute<TranslationRichText>() != null
                 });
             }
             return lst;

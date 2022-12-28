@@ -13,5 +13,7 @@ namespace _3ai.solutions.Translator
         public string Name { get; set; } = string.Empty;
         [NotMapped]
         public bool IsLongText { get; set; }
+        [NotMapped]
+        public bool IsRichText { get; set; }
     }
 }
