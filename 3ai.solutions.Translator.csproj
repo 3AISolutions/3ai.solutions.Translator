@@ -1,24 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
+		<TargetFrameworks>net6.0;net7.0;netstandard2.0</TargetFrameworks>
 		<RootNamespace>_3ai.solutions.Translator</RootNamespace>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>2.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2000-01-01"))).TotalDays).$([System.DateTime]::UtcNow.Hour)</Version>
+		<LangVersion>11.0</LangVersion>
+		<Version>7.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2000-01-01"))).TotalDays).$([System.DateTime]::UtcNow.Hour)</Version>
 		<PackageDescription>Simple package which enables class fields to be translatable</PackageDescription>
-		<RepositoryUrl>https://github.com/kapiosk/3ai.solutions.Translator/</RepositoryUrl>
+		<RepositoryUrl>https://github.com/3AISolutions/3ai.solutions.Translator/</RepositoryUrl>
 	</PropertyGroup>
 	<PropertyGroup>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
-	<ItemGroup>
-	  <None Remove="LICENSE" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="LICENSE.txt" Pack="true" PackagePath="LICENSE.txt" />
 		<None Include="README.md" Pack="true" PackagePath="README.md" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+		<PackageReference Include=" System.ComponentModel.Annotations" Version="5.0.0" />
 	</ItemGroup>
 </Project>
