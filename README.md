@@ -46,7 +46,8 @@ public class SampleService
     private readonly TranslationService translationService;
     private readonly SampleContext context;
 
-    public SampleService(TranslationService translationService, SampleContext context, IMemoryCache memoryCache)
+    public SampleService(TranslationService translationService, SampleContext context,
+                         IMemoryCache memoryCache)
     {
         this.memoryCache = memoryCache;
         this.translationService = translationService;
@@ -72,11 +73,13 @@ public class SampleService
             if (languageId == 1)
                 return await context.Items.ToListAsync();
             else
-                return await translationService.GetTranslatedAsync(await GetCachedTranslatedItemsAsync(), languageId: languageId, newItem: true);
+                return await translationService.GetTranslatedAsync(await GetCachedTranslatedItemsAsync(),
+                                                                   languageId: languageId, newItem: true);
         }) ?? new();
     }
 
-    //Returns items translated into specified language, please note that languageId 1 is reserved for the default language
+    //Returns items translated into specified language,
+    //please note that languageId 1 is reserved for the default language
     public async Task<List<Item>> GetTranslatedItemsAsync(List<Item> items)
     {
         return await translationService.GetTranslatedAsync(items, languageId: 1, newItem: true);
