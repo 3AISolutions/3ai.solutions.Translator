@@ -11,30 +11,30 @@ builder.Services.AddTranslationService<ImplementedITranslationRepository>();
 Create entities for Translation and TranslationName, note that you will need some sort of entity for your language selection
 
 ```csharp
-    private static void CreateSystemModels(ModelBuilder modelBuilder)
+private static void CreateSystemModels(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity<Language>(e =>
     {
-        modelBuilder.Entity<Language>(e =>
-        {
-            e.ToTable("SYS_Languages");
-            e.HasData(
-                new Language() { Id = 1, Code = "en-gb", Name = "English", IsActive = true },
-                new Language() { Id = 2, Code = "el-gr", Name = "Ελληνικά", IsActive = true }
-            );
-        });
+        e.ToTable("SYS_Languages");
+        e.HasData(
+            new Language() { Id = 1, Code = "en-gb", Name = "English", IsActive = true },
+            new Language() { Id = 2, Code = "el-gr", Name = "Ελληνικά", IsActive = true },
+        );
+    });
 
-        modelBuilder.Entity<Translation>(e =>
-        {
-            e.ToTable("SYS_Translation");
-            e.HasKey(p => new { p.ForeignId, p.LanguageId, p.KeyId });
-            e.HasOne<Language>().WithMany().HasForeignKey(p => p.LanguageId).IsRequired();
-        });
+    modelBuilder.Entity<Translation>(e =>
+    {
+        e.ToTable("SYS_Translation");
+        e.HasKey(p => new { p.ForeignId, p.LanguageId, p.KeyId });
+        e.HasOne<Language>().WithMany().HasForeignKey(p => p.LanguageId).IsRequired();
+    });
 
-        modelBuilder.Entity<TranslationName>(e =>
-        {
-            e.ToTable("SYS_TranslationName");
-            e.HasNoKey().HasIndex(p => p.KeyId).IsUnique(); 
-        });
-    }
+    modelBuilder.Entity<TranslationName>(e =>
+    {
+        e.ToTable("SYS_TranslationName");
+        e.HasNoKey().HasIndex(p => p.KeyId).IsUnique(); 
+    });
+}
 ```
 
 ## Sample Service
