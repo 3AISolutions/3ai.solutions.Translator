@@ -6,14 +6,15 @@ namespace _3ai.solutions.Translator;
 
 public class TranslationService
 {
-    private readonly Dictionary<int, Dictionary<int, Dictionary<int, string>>> translations;
     private readonly ITranslationRepository repo;
 
     public TranslationService(ITranslationRepository repo)
     {
-        translations = repo.GetTranslations();
         this.repo = repo;
     }
+
+    private Dictionary<int, Dictionary<int, Dictionary<int, string>>>? translations = null;
+    private Dictionary<int, Dictionary<int, Dictionary<int, string>>> Translations { get => translations ??= repo.GetTranslations(); }
 
     public List<T> GetTranslated<T>(List<T> items, int languageId, bool newItem = false)
     {
@@ -94,7 +95,7 @@ public class TranslationService
         {
             if (foreignId is null || foreignId == 0) foreignId = GetPrimaryKeyValue(item);
             if (foreignId is null || foreignId == 0) throw new Exception($"No TranslationKey found");
-            if (translations.TryGetValue(languageId, out Dictionary<int, Dictionary<int, string>>? LangDict) &&
+            if (Translations.TryGetValue(languageId, out Dictionary<int, Dictionary<int, string>>? LangDict) &&
                 LangDict.TryGetValue(foreignId.Value, out Dictionary<int, string>? ItemDict))
             {
                 if (newItem)
@@ -159,7 +160,7 @@ public class TranslationService
             string key = $"{propertyInfo.ReflectedType?.FullName}.{propertyInfo.Name}";
             lst.Add(new TranslationName
             {
-                TranslationNameId = GetHash(key),
+                KeyId = GetHash(key),
                 Name = propertyInfo.GetCustomAttribute<Translatable>()?.Name ?? propertyInfo.Name,
             });
         }
