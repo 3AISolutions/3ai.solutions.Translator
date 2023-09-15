@@ -143,7 +143,7 @@ public class TranslationService
             {
                 KeyId = GetHash(key),
                 ForeignId = foreignId.Value,
-                Name = propertyInfo.GetCustomAttribute<Translatable>()?.Name ?? propertyInfo.Name,
+                Name = key,
                 Value = (string)(propertyInfo.GetValue(item) ?? ""),
                 IsLongText = propertyInfo.GetCustomAttribute<TranslationLongText>() != null,
                 IsRichText = propertyInfo.GetCustomAttribute<TranslationRichText>() != null

@@ -32,7 +32,8 @@ private static void CreateSystemModels(ModelBuilder modelBuilder)
     modelBuilder.Entity<TranslationName>(e =>
     {
         e.ToTable("SYS_TranslationName");
-        e.HasNoKey().HasIndex(p => p.KeyId).IsUnique(); 
+        e.HasKey(p => p.KeyId); 
+        e.Property(p => p.KeyId).ValueGeneratedNever();
     });
 }
 ```
