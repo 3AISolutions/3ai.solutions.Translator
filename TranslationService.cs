@@ -143,7 +143,7 @@ public class TranslationService
             {
                 KeyId = GetHash(key),
                 ForeignId = foreignId.Value,
-                Name = key,
+                Name = propertyInfo.GetCustomAttribute<Translatable>()?.Name ?? propertyInfo.Name,
                 Value = (string)(propertyInfo.GetValue(item) ?? ""),
                 IsLongText = propertyInfo.GetCustomAttribute<TranslationLongText>() != null,
                 IsRichText = propertyInfo.GetCustomAttribute<TranslationRichText>() != null
@@ -152,7 +152,7 @@ public class TranslationService
         return lst;
     }
 
-    public async Task SaveTransltionNamesAsync<T>()
+    public static List<TranslationName> GetTransltionNames<T>()
     {
         List<TranslationName> lst = new();
         foreach (PropertyInfo propertyInfo in GetPropertyInfos<T>())
@@ -161,9 +161,15 @@ public class TranslationService
             lst.Add(new TranslationName
             {
                 KeyId = GetHash(key),
-                Name = propertyInfo.GetCustomAttribute<Translatable>()?.Name ?? propertyInfo.Name,
+                Name = key,
             });
         }
+        return lst;
+    }
+
+    public async Task SaveTransltionNamesAsync<T>()
+    {
+        List<TranslationName> lst = GetTransltionNames<T>();
         await repo.SaveTranslationNameAsync(lst);
     }
 
