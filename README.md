@@ -16,10 +16,9 @@ private static void CreateSystemModels(ModelBuilder modelBuilder)
     modelBuilder.Entity<Language>(e =>
     {
         e.ToTable("SYS_Languages");
-        e.HasData(
-            new Language() { Id = 1, Code = "en-gb", Name = "English", IsActive = true },
-            new Language() { Id = 2, Code = "el-gr", Name = "Ελληνικά", IsActive = true },
-        );
+        e.HasData(new Language() { Id = 1, Code = "en-gb", Name = "English", IsActive = true },
+                    new Language() { Id = 2, Code = "el-gr", Name = "Ελληνικά", IsActive = true }
+            );
     });
 
     modelBuilder.Entity<Translation>(e =>
@@ -32,8 +31,12 @@ private static void CreateSystemModels(ModelBuilder modelBuilder)
     modelBuilder.Entity<TranslationName>(e =>
     {
         e.ToTable("SYS_TranslationName");
-        e.HasKey(p => p.KeyId); 
-        e.Property(p => p.KeyId).ValueGeneratedNever();
+        e.HasKey(p => p.KeyId);
+        e.Property(x => x.KeyId).ValueGeneratedNever();
+        List<TranslationName> data = new();
+        data.AddRange(TranslationService.GetTransltionNames<Models.Content.Topic>());
+        data.AddRange(TranslationService.GetTransltionNames<Models.Content.Menu>());
+        e.HasData(data);
     });
 }
 ```
