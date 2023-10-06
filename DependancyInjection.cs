@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
 namespace _3ai.solutions.Translator;
-
 public static class DependencyInjection
 {
     public static IServiceCollection AddTranslationService<T>(this IServiceCollection services) where T : ITranslationRepository
