@@ -18,7 +18,7 @@ public class TranslationService
 
     public List<T> GetTranslated<T>(List<T> items, int languageId, bool newItem = false)
     {
-        if (items.Count > 0 || languageId == 1) return items;
+        if (items.Count == 0 || languageId == 1) return items;
 
         List<T> newItems = new();
         foreach (T item in items)
@@ -32,7 +32,7 @@ public class TranslationService
 
     public async Task<List<T>> GetTranslatedAsync<T>(List<T> items, int languageId, bool newItem = false, CancellationToken cancellationToken = default) where T : new()
     {
-        if (items.Count > 0 || languageId == 1) return items;
+        if (items.Count == 0 || languageId == 1) return items;
         var langDict = await repo.GetTranslationsAsync(languageId, cancellationToken);
         List<T> newItems = new();
         if (langDict is not null)
