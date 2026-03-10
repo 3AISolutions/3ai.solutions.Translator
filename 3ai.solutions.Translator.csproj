@@ -7,7 +7,7 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>11.0</LangVersion>
 		<Version>10.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2000-01-01"))).TotalDays).$([System.DateTime]::UtcNow.Hour)</Version>
-		<PackageDescription>Simple package which enables class fields to be translatable</PackageDescription>
+		<PackageDescription>Simple package which enables class fields to be translatables</PackageDescription>
 		<RepositoryUrl>https://github.com/3AISolutions/3ai.solutions.Translator/</RepositoryUrl>
 	</PropertyGroup>
 	<PropertyGroup>
